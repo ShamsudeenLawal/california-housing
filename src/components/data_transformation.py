@@ -135,15 +135,3 @@ class DataTransformation:
             
         except Exception as err:
             raise CustomException(err, sys) # type: ignore
-
-# # sample usage
-# if __name__ == "__main__":
-#     from src.components.data_ingestion import DataIngestion
-#     # ingest the data
-#     data_ingestion = DataIngestion()
-#     train_data_path, test_data_path = data_ingestion.run() # type: ignore
-#     # transform the data
-
-#     transformer = DataTransformation()
-#     train_arr, test_arr, preprocessor = transformer.run(train_data_path, test_data_path) # type: ignore
-#     print(train_arr.shape, test_arr.shape)
