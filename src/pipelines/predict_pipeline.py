@@ -9,7 +9,6 @@ preprocessor = load_object("artifacts/preprocessor.joblib")
 def predict(data):
     transformed_data = preprocessor.transform(data)
     print(transformed_data)
-    print(model)
     pred = model.predict(transformed_data)
     
-    return pred[0]
+    return pred.tolist()

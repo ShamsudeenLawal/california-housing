@@ -12,9 +12,12 @@ def run():
     transformer = DataTransformation()
     train_arr, test_arr, preprocessor = transformer.run(train_data_path, test_data_path) # type: ignore
     # train/tune model
+    cv = 3
+    n_iter=20
+    metric_to_optimizer = "r2"
     tuner = ModelTuner()
-    test_score = tuner.run(train_arr, test_arr)
-    print("Test Score:", test_score)
+    metric_dicts = tuner.run(train_arr, test_arr, cv=cv, n_iter=n_iter)
+    print("Best model metrics:", metric_dicts)
 
 if __name__ == "__main__":
     run()

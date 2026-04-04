@@ -9,12 +9,12 @@ def get_requirements_from_file(filename):
     return requirements
 
 setup(
-    name='boston-housing',
+    name='california_housing',
     version='0.1.0',
     packages=find_packages(),
     install_requires=get_requirements_from_file('requirements.txt'),
     author='Your Name',
     author_email='your.email@example.com',
-    description='A project for Boston Housing data analysis',
+    description='A Package for California Housing data',
     url='',
 )

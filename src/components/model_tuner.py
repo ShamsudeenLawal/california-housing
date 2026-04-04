@@ -1,6 +1,7 @@
 import os
 import sys
 import sklearn
+from sklearn import metrics
 import numpy as np
 from scipy.stats import randint
 import dataclasses
@@ -112,7 +113,7 @@ class ModelTuner:
     def __init__(self):
         self.trainer_config = ModelTunerConfig()
 
-    def run(self, train_array, test_array, metric="rmse", cv=None):
+    def run(self, train_array, test_array, metric="rmse", cv=None, n_iter=10):
         logging.info("Starting Model Training...")
         try:
             # cross-validation
@@ -127,14 +128,20 @@ class ModelTuner:
             random_search.fit(train_array[:, :-1], train_array[:, -1])
             logging.info(f"Best hyperparameters for {best_model}: {random_search.best_params_}")
             # evaluate the model
-            test_score = np.abs(random_search.score(test_array[:, :-1], test_array[:, -1]))
-            logging.info(f"Test {metric} for the best model {best_model}: {test_score}")
+            predictions = random_search.predict(test_array[:, :-1])
+            mae = metrics.mean_absolute_error(test_array[:, -1], predictions)
+            rmse = metrics.root_mean_squared_error(test_array[:, -1], predictions)
+            r2 = metrics.r2_score(test_array[:, -1], predictions)
+            best_model_metrics = {"R2": r2, "MAE": mae, "RMSE": rmse}
+            # test_score = np.abs(random_search.score(test_array[:, :-1], test_array[:, -1]))
+            logging.info(f"Test metrics for the best model(after tuning) {best_model}: R2={r2}, MAE={mae} and RMSE={rmse}")
             
             # saving model
             from src.utils import save_object
             save_object(file_path=self.trainer_config.model_path,
                         obj=random_search.best_estimator_)
-            return test_score
+
+            return best_model_metrics
         
         except Exception as err:
             raise CustomException(err, sys) # type: ignore

@@ -33,14 +33,6 @@ def get_prediction(data: Item):
     return {"prediction": pred}
 
 
-# data = Item(
-#     longitude=122, 
-#     latitude=96.5,
-#     housing_median_age=45,
-#     total_rooms=90,
-#     total_bedrooms=90,
-#     population=90,
-#     households=90,
-#     median_income=90,
-#     ocean_proximity="inland"
-#     )
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app:app", port=8080, reload=True)

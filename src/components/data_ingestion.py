@@ -23,7 +23,8 @@ class DataIngestion:
         try:
             
             # specify data path: one can also consider passing this as an argument
-            data_path = os.path.join("notebooks", "data", "housing", "housing.csv")
+            # data_path = os.path.join("notebooks", "data", "housing", "housing.csv")
+            data_path = os.path.join("data", "housing", "housing.csv")
             
             # create artifacts directory if it doesn't exist
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path), exist_ok=True)
@@ -47,8 +48,8 @@ class DataIngestion:
             housing_test = housing_test.drop(columns=["income_category"])
 
             # save train and test data
-            housing_train.to_csv(self.ingestion_config.train_data_path)
-            housing_test.to_csv(self.ingestion_config.test_data_path)
+            housing_train.to_csv(self.ingestion_config.train_data_path, index=False)
+            housing_test.to_csv(self.ingestion_config.test_data_path, index=False)
 
             logging.info("Data successfully ingested...")
 
@@ -61,5 +62,3 @@ class DataIngestion:
             CustomException(err, sys) # type: ignore
 
 
-# possible config arguments
-# data_path, test_size, shuffle, random_state

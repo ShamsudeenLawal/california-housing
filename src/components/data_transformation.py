@@ -56,6 +56,7 @@ def ratio_pipeline():
 class DataTransformationConfig:
     preprocessor_obj_file_path: str = os.path.join('artifacts', 'preprocessor.joblib')
 
+
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
@@ -76,10 +77,11 @@ class DataTransformation:
             LABEL = ["median_house_value"]
             NUM_FEATURES = [NUM_FEAT for NUM_FEAT in NUM_VARS if NUM_FEAT != LABEL[0]]
             CAT_FEATURES = [CAT_FEAT for CAT_FEAT in CAT_VARS if CAT_FEAT != LABEL[0]]
-            train_features = train_df[NUM_FEATURES + CAT_VARS]
+
+            train_features = train_df[NUM_FEATURES + CAT_FEATURES]
             train_labels = train_df[LABEL]
 
-            test_features = test_df[NUM_FEATURES + CAT_VARS]
+            test_features = test_df[NUM_FEATURES + CAT_FEATURES]
             test_labels = test_df[LABEL]
 
             # log transformation pipeline
@@ -119,7 +121,7 @@ class DataTransformation:
             Xtrain = preprocessor.fit_transform(train_features)
             Xtest = preprocessor.transform(test_features)
 
-            # save the preprocessor object
+            # save the preprocessor model
             import joblib
             os.makedirs(os.path.dirname(self.data_transformation_config.preprocessor_obj_file_path), exist_ok=True)
             joblib.dump(preprocessor, self.data_transformation_config.preprocessor_obj_file_path)
