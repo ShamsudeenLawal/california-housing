@@ -1,7 +1,7 @@
 
 from src.components.data_ingestion import DataIngestion
 from src.components.data_transformation import DataTransformation
-from src.components.model_tuner import ModelTuner
+from src.components.model_trainer import ModelTuner
 
 def run():
 
